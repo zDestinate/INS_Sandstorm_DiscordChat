@@ -2,6 +2,19 @@
 This let your discord bot send message to your insurgency sandstorm in game chat.<br>
 You have to use this with [Advanced Chat](https://insurgencysandstorm.mod.io/advanced-chat) mod<br><br>
 
+The discord bot will automatic read your sandstorm log and get the chat log part and put it in your discord.<br>
+You must have this in your `Engine.ini` file in your sandstorm to have the log output the chat.
+
+```
+[Core.Log]
+LogGameplayEvents=Display
+LogDemo=Display
+LogObjectives=Display
+LogGameMode=Display
+```
+
+Your sandstorm server startup almost have this parameter `-LogCmds="LogGameplayEvents Log"`<br><br>
+
 To use this, you must install [nodejs and npm](https://nodejs.org/en/download/) on your server. You can try and test it on your computer but don't recommend because your bot will need to run 24/7. The moment you close your bot, users on discord won't able to send any chat message to in-game or receive any message.<br><br>
 
 You will need to `npm install` to install the require lib for this discord bot.<br>
