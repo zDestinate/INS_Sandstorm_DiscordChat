@@ -1,5 +1,5 @@
 //Load config
-var config_data = require('../configs.json')
+var config_data = require('../configs.json');
 
 //Get last line
 const fs = require('fs');
