@@ -2,7 +2,7 @@
 This let your discord bot send message to your insurgency sandstorm in game chat.<br>
 You have to use this with [Advanced Chat](https://insurgencysandstorm.mod.io/advanced-chat) mod<br><br>
 
-### How it works?
+### How does it work?
 
 The discord bot will automatic read your sandstorm log and get the chat log part and put it in your discord.<br>
 The bot will also be using rcon to send the message to the game server. Everytime you type something in your discord chat, it will grab the chat message and rcon it to your sandstorm server.<br><br><br>
