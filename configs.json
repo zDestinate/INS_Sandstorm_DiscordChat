@@ -1,0 +1,11 @@
+{
+	"RconIP": "127.0.0.1",
+	"RconPort": 27015,
+	"RconPassword": "your password here",
+	"discord":
+	{
+		"botToken": "your discord bot token from https://discordapp.com/developers/applications/ ",
+		"ChatChannel": "ss-ingame-chat"
+	},
+	"LogFilePath": "/var/sandstorm/Insurgency/Saved/Logs/Insurgency.log"
+}

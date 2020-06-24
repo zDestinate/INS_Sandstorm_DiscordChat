@@ -1,0 +1,16 @@
+{
+  "name": "discordchat",
+  "version": "1.0.0",
+  "description": "discordchat for INS:Sandstorm",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/main.js"
+  },
+  "author": "Circleus",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "rcon": "^1.0.3",
+    "read-last-lines": "^1.7.2"
+  }
+}
