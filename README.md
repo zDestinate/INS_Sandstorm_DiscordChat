@@ -2,7 +2,7 @@
 This let your discord bot send message to your insurgency sandstorm in game chat.<br>
 You have to use this with [Advanced Chat](https://insurgencysandstorm.mod.io/advanced-chat) mod<br><br>
 
-To use this, you must install nodejs and npm on your server. You can try and test it on your computer but don't recommend because your bot will need to run 24/7. The moment you close your bot, users on discord won't able to send any chat message to in-game or receive any message.<br><br>
+To use this, you must install [nodejs and npm](https://nodejs.org/en/download/) on your server. You can try and test it on your computer but don't recommend because your bot will need to run 24/7. The moment you close your bot, users on discord won't able to send any chat message to in-game or receive any message.<br><br>
 
 You will need to `npm install` to install the require lib for this discord bot.<br>
 Make sure you edit your [configs.json](https://github.com/zWolfi/INS_Sandstorm_DiscordChat/blob/master/configs.json) file and put in your server rcon IP, port, password, your bot token, and your sandstorm log file path.<br>
