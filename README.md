@@ -21,7 +21,7 @@ LogObjectives=Display
 LogGameMode=Display
 ```
 
-Your sandstorm server startup almost have this parameter `-LogCmds="LogGameplayEvents Log"`<br><br>
+Your sandstorm server startup must have this parameter `-LogCmds="LogGameplayEvents Log"`<br><br>
 
 To use this bot, you must install [nodejs and npm](https://nodejs.org/en/download/) on your server. You can try and test it on your computer but don't recommend because your bot will need to run 24/7. The moment you close your bot, users on discord won't able to send any chat message to in-game or receive any message.<br><br>
 
