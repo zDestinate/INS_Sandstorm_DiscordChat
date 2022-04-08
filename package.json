@@ -9,7 +9,7 @@
   "author": "Circleus",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "^13.6.0",
     "rcon": "^1.0.3",
     "read-last-lines": "^1.7.2"
   }
