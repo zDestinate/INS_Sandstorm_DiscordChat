@@ -170,7 +170,7 @@ for(let i = 0; i < LogFilePath.length; i++)
 }
 
 //Discord bot token (Require you to create your own discord bot in https://discordapp.com/developers/applications/ )
-bot.login(config_data.discord.botToken);
+bot.login(config_data.discord.botToken).catch(console.error);
 
 function exitHandler(options, exitCode)
 {
