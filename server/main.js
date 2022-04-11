@@ -39,14 +39,14 @@ for(let i = 0; i < config_data.servers.length; i++)
 	
 	//Rcon
 	rconConnection[i].on('auth', function() {
-		console.log("[RCON][%d] Authed!", i);
+		console.log("[RCON][SERVER %d] Authed!", i);
 	}).on('response', function(str) {
 		if(str)
 		{
-			console.log("[RCON][%d] Response: %s", i, str);
+			console.log("[RCON][SERVER %d] Response: %s", i, str);
 		}
 	}).on('end', function() {
-		console.log("[RCON][%d] Socket closed!", i);
+		console.log("[RCON][SERVER %d] Socket closed!", i);
 	}).on('error', function(err){
 		try
 		{
@@ -64,12 +64,16 @@ for(let i = 0; i < config_data.servers.length; i++)
 	}
 	catch(err)
 	{
-		console.log("[RCON][%d] %s", i, err);
+		console.log("[RCON][SERVER %d] %s", i, err);
 	}
 }
 
 
 //Discord bot events
+bot.on('error', (e) => {
+	console.log('[SS-DISCORD][ERROR] %s', e);
+});
+
 //Bot connected to discord and its ready
 bot.on('ready', () => {
 	console.log('[SS-DISCORD] Successfully Loaded');
@@ -104,7 +108,7 @@ bot.on("messageCreate", msg => {
 		//Send an rcon message to game
 		rconConnection[i].send('say _DiscordTag_' + username + ' : ' + message);
 		
-		console.log('[SS-DISCORD][%d] %s : %s', i, username, message);
+		console.log('[SS-DISCORD][SERVER %d] %s : %s', i, username, message);
 	}
 });
 
