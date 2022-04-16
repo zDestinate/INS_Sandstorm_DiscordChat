@@ -84,7 +84,7 @@ class SandstormLogReader extends EventEmitter
 									
 									if(bNewPlayer)
 									{
-										this.#Players[i].push(obj);
+										this.#Players[i].push({...obj});
 										this.emit('player_connected', {index: i, PlayerName, SteamID, Platform, TotalPlayers: this.#Players[i].length});
 									}						
 								}
@@ -174,7 +174,7 @@ class SandstormLogReader extends EventEmitter
 							this.#TempLastLineChat[i].push(line);
 						}
 						
-						this.#TempLastLineChat[i] = TempLine;
+						this.#TempLastLineChat[i] = [...TempLine];
 						
 					}).catch((error) => {
 						console.log(error);
