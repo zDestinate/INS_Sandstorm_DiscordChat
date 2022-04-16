@@ -1,9 +1,8 @@
 //Load config
 const config_data = require('../configs.json');
 
-//Get last line
-const fs = require('fs');
-const readLastLines = require('read-last-lines');
+//Read sandstorm log
+const SandstormLogReader = require('./lib/SandstormLogReader');
 
 //Discord
 const Discord = require("discord.js");
@@ -39,22 +38,33 @@ for(let i = 0; i < config_data.servers.length; i++)
 	
 	//Rcon
 	rconConnection[i].on('auth', function() {
-		console.log("[RCON][SERVER %d] Authed!", i);
+		console.log("[RCON][SERVER %d] Connected", i);
 	}).on('response', function(str) {
 		if(str)
 		{
 			console.log("[RCON][SERVER %d] Response: %s", i, str);
 		}
 	}).on('end', function() {
-		console.log("[RCON][SERVER %d] Socket closed!", i);
+		console.log("[RCON][SERVER %d] Disconnected", i);
+		setTimeout(() => {
+			try
+			{
+				rconConnection[i].connect();
+			}
+			catch(err)
+			{
+			}
+		}, 4000);
 	}).on('error', function(err){
-		try
-		{
-			rconConnection[i].connect();
-		}
-		catch(err)
-		{
-		}
+		setTimeout(() => {
+			try
+			{
+				rconConnection[i].connect();
+			}
+			catch(err)
+			{
+			}
+		}, 4000);
 	});
 	
 	//Establish rcon connection
@@ -89,13 +99,13 @@ bot.on('reconnecting', () => {
 bot.on("messageCreate", msg => {
 	if(msg.author.bot) return;
 	
+	let username = msg.author.username;
+	let message = msg.content;
+	
 	//Filter out channel so only the channel from ChatChannel can send message to in game
 	for(let i = 0; i < ChatChannel.length; i++)
 	{
 		if(msg.channel.name != ChatChannel[i]) continue;
-		
-		let username = msg.author.username;
-		let message = msg.content;
 		
 		//Filter out ```
 		if(message.indexOf("```") !== -1)
@@ -112,62 +122,52 @@ bot.on("messageCreate", msg => {
 	}
 });
 
-//Log the file every time the file change to get the message in game and put it in the discord
-var TempLastLine = [];
-for(let i = 0; i < LogFilePath.length; i++)
-{
-	fs.watch(LogFilePath[i], { encoding: 'buffer' }, (eventType, filename) => {
-		if (eventType == 'change') {
-			readLastLines.read(LogFilePath[i], 1)
-			.then((lines) => {
-				if(TempLastLine[i] == undefined)
-				{
-					TempLastLine.push("");
-				}
-				
-				if((TempLastLine[i] != lines) && (lines.includes("]LogChat: Display: ")))
-				{
-					lines = lines.replace(/\n|\r/g, "");
-					TempLastLine[i] = lines;
-					lines = lines.substring(lines.indexOf("]LogChat: Display: ") + 19, lines.length);
-					let chatmessage = lines.substring(lines.indexOf("Chat: ") + 6, lines.length);
-					lines = lines.substring(0, lines.indexOf("Chat: "))
-					
-					let steamID;
-					
-					let TempLine = lines;
-					while(true)
-					{
-						let startOfID = TempLine.indexOf("(") + 1;
-						let EndOfID = TempLine.lastIndexOf(")");
-						steamID = TempLine.substring(startOfID, EndOfID);
-						
-						if(/^\d+$/.test(steamID))
-						{
-							break;
-						}
-						TempLine = TempLine.substring(startOfID, EndOfID+1);
-					}
-					
-					let PlayerName = lines.substring(0, lines.indexOf(steamID)-1);
-					let ChatType = lines.substring(lines.indexOf(steamID) + steamID.length + 1, lines.length);
-					
-					let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[i]);
-					if(ChatType.includes('Global'))
-					{
-						DiscordChannel.send("**[" + steamID + "] " + PlayerName + " :** " + chatmessage);
-					}
-					else if(ChatType.includes('Team'))
-					{
-						DiscordChannel.send("**[" + steamID + "] (TEAM) " + PlayerName + " :** " + chatmessage);
-					}
-				}
-			}).catch((error) => {
-				console.log(error);
-			});
-		}
-	});
-}
+
+//Using sandstorm log reader to keep track of the log
+SandstormLog = new SandstormLogReader(LogFilePath);
+
+SandstormLog.on('message', ({index, PlayerName, SteamID, ChatType, Message}) => {
+	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
+	if(ChatType.includes('Global'))
+	{
+		DiscordChannel.send(`**[${SteamID}] ${PlayerName} :** ${Message}`);
+	}
+	else if(ChatType.includes('Team'))
+	{
+		DiscordChannel.send(`**[${SteamID}] (TEAM) ${PlayerName} :** ${Message}`);
+	}
+	
+	console.log('[SS-LOG][SERVER %d] %s : %s', index, PlayerName, Message);
+});
+
+SandstormLog.on('player_connected', ({index, PlayerName, SteamID, Platform, TotalPlayers}) => {
+	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
+	DiscordChannel.send(`**[${SteamID}] ${PlayerName}** has connected to the game on **${Platform}** platform.`);
+	
+	console.log('[SS-LOG][SERVER %d] %s connected', index, PlayerName);
+});
+
+SandstormLog.on('player_disconnected', ({index, PlayerName, SteamID, Platform, TotalPlayers}) => {
+	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
+	DiscordChannel.send(`**[${SteamID}] ${PlayerName}** has disconnected from the game on **${Platform}** platform.`);
+	
+	console.log('[SS-LOG][SERVER %d] %s disconnected', index, PlayerName);
+});
+
+SandstormLog.on('map_change', ({index, Map, Scenario}) => {
+	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
+	DiscordChannel.send(`Map changed to **${Map}**`);
+	
+	console.log('[SS-LOG][SERVER %d] Map changed to %s %s', index, Map, Scenario);
+});
+
+SandstormLog.on('map_restart', ({index, Map, Scenario}) => {
+	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
+	DiscordChannel.send(`Replay map **${Map}**`);
+	
+	console.log('[SS-LOG][SERVER %d] Replay map %s %s', index, Map, Scenario);
+});
+
 
 //Discord bot token (Require you to create your own discord bot in https://discordapp.com/developers/applications/ )
 bot.login(config_data.discord.botToken).catch(console.error);
