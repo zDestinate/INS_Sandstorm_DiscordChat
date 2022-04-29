@@ -14,7 +14,7 @@ class SandstormLogReader extends EventEmitter
 	#Players;
 	#CurrentMap;
 	
-	constructor(LogFilePath)
+	constructor(LogFilePath, TotalLines)
 	{
 		super();
 		
@@ -27,7 +27,7 @@ class SandstormLogReader extends EventEmitter
 			fs.watch(LogFilePath[i], { encoding: 'buffer' }, (eventType, filename) =>{
 				if(eventType == 'change')
 				{
-					readLastLines.read(LogFilePath[i], 40).then((lines) => {
+					readLastLines.read(LogFilePath[i], TotalLines).then((lines) => {
 						if(this.#TempLastLineChat[i] == undefined)
 						{
 							this.#TempLastLineChat[i] = [];
@@ -85,7 +85,7 @@ class SandstormLogReader extends EventEmitter
 									if(bNewPlayer)
 									{
 										this.#Players[i].push({...obj});
-										this.emit('player_connected', {index: i, PlayerName, SteamID, Platform, TotalPlayers: this.#Players[i].length});
+										this.emit('player_connected', {index: i, PlayerName, SteamID, Platform});
 									}						
 								}
 							}
@@ -100,7 +100,7 @@ class SandstormLogReader extends EventEmitter
 									{
 										let PlayerName = this.#Players[i][j].name;
 										let Platform = this.#Players[i][j].platform;
-										this.emit('player_disconnected', {index: i, PlayerName, SteamID: SteamID[1], Platform, TotalPlayers: this.#Players[i].length - 1});
+										this.emit('player_disconnected', {index: i, PlayerName, SteamID: SteamID[1], Platform});
 										
 										this.#Players[i].splice(j, 1);
 										break;
