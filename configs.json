@@ -1,4 +1,7 @@
 {
+	"logreader": {
+		"LineToReadPerCheck": 40
+	},
 	"discord": {
 		"botToken": "your discord bot token from https://discordapp.com/developers/applications/ "
 	},
