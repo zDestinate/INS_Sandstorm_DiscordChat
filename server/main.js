@@ -124,7 +124,7 @@ bot.on("messageCreate", msg => {
 
 
 //Using sandstorm log reader to keep track of the log
-SandstormLog = new SandstormLogReader(LogFilePath);
+SandstormLog = new SandstormLogReader(LogFilePath, config_data.logreader.LineToReadPerCheck);
 
 SandstormLog.on('message', ({index, PlayerName, SteamID, ChatType, Message}) => {
 	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
