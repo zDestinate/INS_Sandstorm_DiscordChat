@@ -7,15 +7,13 @@ This is a class that I created to read the sandstorm log file using `fs`. Based 
 	- `index` The index of the log file because we watch multiple log files to support multiple severs
 	- `PlayerName` The name of the new player that just connected to the server
 	- `SteamID` SteamID64 of the new player that just connected to the server
-	- `Platform` The platform they used to connected to the server (Steam, Xbox, PS5, etc...)
-	- `TotalPlayers` Current total players including the new player<br><br>
+	- `Platform` The platform they used to connected to the server (Steam, Xbox, PS5, etc...)<br><br>
 
 - `player_disconnected` A player that disconnected from the server
 	- `index`
 	- `PlayerName`
 	- `SteamID`
-	- `Platform`
-	- `TotalPlayers` Current total players after the player disconnected<br><br>
+	- `Platform`<br><br>
 	
 - `message` This will trigger when someone send a chat message
 	- `index`
