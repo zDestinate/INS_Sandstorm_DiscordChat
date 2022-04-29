@@ -39,6 +39,9 @@ To add another server, all you need to do is add another object in the `servers`
 **Example:**<br>
 ```json
 {
+	"logreader": {
+		"LineToReadPerCheck": 40
+	},
 	"discord": {
 		"botToken": "your discord bot token from https://discordapp.com/developers/applications/ "
 	},
