@@ -140,14 +140,14 @@ SandstormLog.on('message', ({index, PlayerName, SteamID, ChatType, Message}) => 
 	console.log('[SS-LOG][SERVER %d] %s : %s', index, PlayerName, Message);
 });
 
-SandstormLog.on('player_connected', ({index, PlayerName, SteamID, Platform, TotalPlayers}) => {
+SandstormLog.on('player_connected', ({index, PlayerName, SteamID, Platform}) => {
 	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
 	DiscordChannel.send(`**[${SteamID}] ${PlayerName}** has connected to the game on **${Platform}** platform.`);
 	
 	console.log('[SS-LOG][SERVER %d] %s connected', index, PlayerName);
 });
 
-SandstormLog.on('player_disconnected', ({index, PlayerName, SteamID, Platform, TotalPlayers}) => {
+SandstormLog.on('player_disconnected', ({index, PlayerName, SteamID, Platform}) => {
 	let DiscordChannel = bot.channels.cache.find(channel => channel.name === ChatChannel[index]);
 	DiscordChannel.send(`**[${SteamID}] ${PlayerName}** has disconnected from the game on **${Platform}** platform.`);
 	
