@@ -16,7 +16,7 @@ You must have this in your `Engine.ini` file in your sandstorm to have the log o
 ```
 [Core.Log]
 LogGameplayEvents=Display
-LogDemo=Display
+LogNet=Display
 LogObjectives=Display
 LogGameMode=Display
 ```
