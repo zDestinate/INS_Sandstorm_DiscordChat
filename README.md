@@ -15,10 +15,10 @@ You must have this in your `Engine.ini` file in your sandstorm to have the log o
 
 ```
 [Core.Log]
-LogGameplayEvents=Display
-LogNet=Display
-LogObjectives=Display
-LogGameMode=Display
+LogGameplayEvents=Log
+LogNet=Log
+LogObjectives=Log
+LogGameMode=Log
 ```
 
 Your sandstorm server startup must have this parameter `-LogCmds="LogGameplayEvents Log"`<br><br>
