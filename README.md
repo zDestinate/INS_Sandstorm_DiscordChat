@@ -32,6 +32,13 @@ Make sure you have the right text channel of your discord server and the log fil
 After all that, all you have to do is to run the main.js by doing `npm start` in the main directory or `node main.js` where your main.js file is locate. Don't forget that you will have to invite your bot to your discord server. Bot will show up in your discord server and you will have to give the permission to the bot strictly. Otherwise the bot will send all the messages from all the text channel to in game chat.<br><br><br>
 
 
+### Discord Bot Configuration
+
+Make sure your discord bot has all intents enabled if you are getting intents error.<br><br>
+![image](https://user-images.githubusercontent.com/1011211/179432565-0a17f4a2-0455-4c40-b3ee-c0da39e3ec8b.png)
+<br><br><br>
+
+
 
 ### Multiple Server Configuration
 
